@@ -1,0 +1,5 @@
+# Dev Environment
+.vscode
+
+# Secrets
+config.ini
