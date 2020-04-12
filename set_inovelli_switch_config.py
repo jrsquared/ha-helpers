@@ -39,12 +39,13 @@ def set_config_params(node_id, parameters):
     for parameter in parameters:
         set_config_param(node_id, parameter['id'], parameter['value'])
 
-
-def update_inovelli_dimmers():
-    inovelli_dimmers = [35, 19, 20, 18, 44, 45, 41, 24, 23, 37, 39,
+all_inovelli_dimmers = [35, 19, 20, 18, 44, 45, 41, 24, 23, 37, 39,
                         38, 36, 16, 42, 22, 49, 17, 52, 7, 25, 40, 43, 47, 48]
 
-    for node_id in inovelli_dimmers:
+three_way_inovelli = [44, 45]
+
+def update_inovelli_dimmers():
+    for node_id in all_inovelli_dimmers:
         parameters = []
 
         # set 1 (Dimming Speed - Z-Wave) to 3 (3 seconds)
@@ -64,5 +65,19 @@ def update_inovelli_dimmers():
 
         set_config_params(node_id, parameters)
 
+def update_three_way_inovelli():
+    for node_id in three_way_inovelli:
+        parameters = []
 
-update_inovelli_dimmers()
+        # set neutral wire, for some reason have to set no neutral first
+        parameters.append({"id": 21, "value": 0})
+        parameters.append({"id": 21, "value": 1})
+
+        # set three way, for some reason have to set no three way first 
+        parameters.append({"id": 22, "value": 0})
+        parameters.append({"id": 22, "value": 2})
+
+        set_config_params(node_id, parameters)
+
+# update_inovelli_dimmers()
+update_three_way_inovelli()
